@@ -50,7 +50,6 @@ ARM7DIR		:= arm7
 # Build artfacts
 # --------------
 
-NITROFAT_IMG	:= build_blocksds/nitrofat.bin
 ROM		:= $(NAME).nds
 ROM_DEBUG	:= $(NAME)_debug.nds
 ROM_PROFILE	:= $(NAME)_profile.nds
@@ -84,13 +83,8 @@ arm7:
 
 ifneq ($(strip $(NITROFATDIR)),)
 # Additional arguments for ndstool
-NDSTOOL_FAT	:= -F $(NITROFAT_IMG)
+NDSTOOL_FAT	:= -d $(NITROFATDIR)
 
-$(NITROFAT_IMG): $(NITROFATDIR)
-	@echo "  MKFATIMG $@ $(NITROFATDIR)"
-	$(V)$(BLOCKSDS)/tools/mkfatimg/mkfatimg -t $(NITROFATDIR) $@ 0
-
-# Make the NDS ROM depend on the filesystem image only if it is needed
 $(ROM): $(NITROFAT_IMG)
 $(ROM_DEBUG): $(NITROFAT_IMG)
 $(ROM_PROFILE): $(NITROFAT_IMG)
